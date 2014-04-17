@@ -1,0 +1,21 @@
+{
+  "name": "yagraphs",
+  "version": "0.0.0",
+  "description": "Eventually this will be the source for http://www.yasiv.com/graphs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yasiv",
+    "ngraph",
+    "graph",
+    "visualization"
+  ],
+  "author": "Andrei Kashcha",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anvaka/yagraphs"
+  }
+}
