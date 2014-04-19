@@ -24,6 +24,7 @@
     "twitter-bootstrap-3.0.0": "^3.0.0",
     "an": "~0.0.2",
     "angular": "^1.2.10",
-    "vivagraphjs": "^0.5.6"
+    "vivagraphjs": "^0.5.6",
+    "ngraph.serialization": "0.0.3"
   }
 }

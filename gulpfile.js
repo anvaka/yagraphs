@@ -60,7 +60,7 @@ function copyDist() {
 
   streamqueue({ objectMode: true },
         gulp.src('./node_modules/angular/lib/angular.min.js'),
-        gulp.src('./node_modules/vivagraphjs/dist/vivagraph.min.js')
+        gulp.src('./node_modules/vivagraphjs/dist/vivagraph.js')
   ).pipe(concat('external.min.js'))
    .pipe(gulp.dest('./dist'));
 
