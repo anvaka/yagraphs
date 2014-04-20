@@ -901,17 +901,32 @@ module.exports = function (graph) {
       gravity : -10.2,
       theta : 0.8
   });
-  //layout.pinNode(graph.getNode(1), true);
 
-  var graphics = Viva.Graph.View.webglGraphics();
+  var graphics = Viva.Graph.View.svgGraphics();
   var links = [];
   graphics.node(function(node){
-      return Viva.Graph.View.webglSquare(20, 0xfa0100ff);
-    })
-    .link(function(link) {
-      var linkUI = Viva.Graph.View.webglLine(0xaec7e8ff);
-      links.push(linkUI);
-      return linkUI;
+    return Viva.Graph.svg('rect')
+                     .attr('width', 24)
+                     .attr('height', 24)
+                     .attr('fill', '#00adef');
+    }).placeNode(function(nodeUI, pos) {
+        nodeUI.attr('x', pos.x - 12).attr('y', pos.y - 12);
+    }).link(function(link){
+        var linkUI = Viva.Graph.svg('path')
+                    .attr('stroke', 'red')
+                    .attr('stroke-width', '4px');
+        var pos = layout.getLinkPosition(link);
+        links.push({
+          from: pos.from,
+          to: pos.to,
+          stroke: linkUI.attributes.getNamedItem('stroke')
+        });
+        return linkUI;
+    }).placeLink(function(linkUI, fromPos, toPos) {
+        var data = 'M' + fromPos.x + ',' + fromPos.y +
+                    'L' + toPos.x + ',' + toPos.y;
+
+        linkUI.attr("d", data);
     });
 
   updateLinksColor();
@@ -934,8 +949,8 @@ module.exports = function (graph) {
     var avgDistance = 0;
     for (var i = 0; i < links.length; ++i) {
       link = links[i];
-      var from = link.pos.from;
-      var to = link.pos.to;
+      var from = link.from;
+      var to = link.to;
       link.distance = Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
       avgDistance += link.distance;
 
@@ -950,7 +965,7 @@ module.exports = function (graph) {
       var dt = link.distance - avgDistance;
       var hue = 90 * (dt * 4/(avgDistance) + 1);
       hue = Math.min(Math.max(hue, 0), 180);
-      link.color = hsbToRgb(hue, 100, 100);
+      link.stroke.value = hsbToRgb(hue, 100, 100);
     }
   }
 };
@@ -975,7 +990,7 @@ function hsbToRgb(h, s, b){
       case 5: r = br; g =  p; b = q; break;
     }
   }
-  return (r << 24) + (g << 16) + (b << 8) + 0xff;
+  return 'rgb(' + r + ', ' + g + ',' + b + ')';
 }
 
 },{}],12:[function(require,module,exports){
