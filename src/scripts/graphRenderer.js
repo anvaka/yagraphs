@@ -3,22 +3,23 @@ module.exports = function (graph) {
   graph.addEventListener = graph.on;
   graph.removeEventListener = graph.off;
   var layout = Viva.Graph.Layout.forceDirected(graph, {
-      springLength : 30,
+      springLength : 20,
       springCoeff : 0.0004,
       dragCoeff : 0.009,
-      gravity : -10.2,
-      theta : 0.8
+      gravity : -9.2,
+      theta : 0.8,
+      timeStep: 2,
+      stableThreshold: 0.0002
   });
 
   var graphics = Viva.Graph.View.svgGraphics();
   var links = [];
   graphics.node(function(node){
-    return Viva.Graph.svg('rect')
-                     .attr('width', 24)
-                     .attr('height', 24)
+    return Viva.Graph.svg('circle')
+                     .attr('r', 12)
                      .attr('fill', '#00adef');
     }).placeNode(function(nodeUI, pos) {
-        nodeUI.attr('x', pos.x - 12).attr('y', pos.y - 12);
+        nodeUI.attr('transform', 'translate(' + (pos.x) + ',' + (pos.y) + ')');
     }).link(function(link){
         var linkUI = Viva.Graph.svg('path')
                     .attr('stroke', 'red')
